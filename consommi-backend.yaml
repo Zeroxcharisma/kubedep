@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consommi-backend
+  labels:
+    app: consommi-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consommi-backend
+  template:
+    metadata:
+      labels:
+        app: consommi-backend
+    spec:
+      containers:
+      - name: consommi-backend
+        image: consomi-backend
+        ports:
+        - containerPort: 9091
+      
+     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consommibacksvc
+spec:
+  selector:
+    app: consommi-backend
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 9091
+      targetPort: 9091
+      nodePort: 30000
